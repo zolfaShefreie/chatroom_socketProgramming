@@ -33,6 +33,7 @@ class Connection(QThread):
             message_header = f'{len(message):<{self.HEADER_LENGTH}}'.encode("utf_8")
             self.client_socket.send(message_header + message)
 
+    @property
     def get_message(self):
         username_header = self.client_socket.recv(self.HEADER_LENGTH)
         if not len(username_header):
@@ -60,7 +61,7 @@ class Connection(QThread):
         while True:
             try:
                 while True:
-                    username, message, count_online, kind = self.get_message()
+                    username, message, count_online, kind = self.get_message
                     if username is None:
                         sys.exit()
 
@@ -69,9 +70,11 @@ class Connection(QThread):
             except IOError as e:
                 if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
                     print('Reading Error ' + str(e))
-                    sys.exit()
+                    break
+                    # sys.exit()
                 continue
 
             except Exception as e:
                 print('General Error ' + str(e))
-                sys.exit()
+                break
+                # sys.exit()
