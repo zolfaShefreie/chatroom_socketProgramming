@@ -60,11 +60,11 @@ class Server(object):
     def leave(self, notified_socket):
         self.socket_list.remove(notified_socket)
         user = self.clients[notified_socket]
-        msg = self.generate_join_leave_msg(is_joined=True)
+        msg = self.generate_join_leave_msg(is_joined=False)
+        del self.clients[notified_socket]
         online = self.generate_count_msg()
         kind = self.generate_type_msg(kind=3)
         self.send_to_all(notified_socket, user, msg, online, kind)
-        del self.clients[notified_socket]
 
     def join(self, client_socket):
         user = self.receive_msg(client_socket)
