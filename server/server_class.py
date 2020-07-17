@@ -70,7 +70,7 @@ class Server(object):
         user = self.receive_msg(client_socket)
         if not user:
             return None
-        print(user['data'])
+
         self.socket_list.append(client_socket)
         self.clients[client_socket] = user
         msg = self.generate_join_leave_msg(is_joined=True)
